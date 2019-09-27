@@ -72,12 +72,16 @@ bool in(char direction, char array[])
 int main()
 {
     char d[] = {'n', 'n', 'w', 'e', 'e', 'w', 's', 'n', 'e', 'e'};
-    char d1[] = {'n', 'e', 's', 'w'};
-    int len = 4;
+    char d1[] = {'n', 'e', 's', 'w', 'e', 'w'};
+    int len = 6;
     char yAxis[] = {'n', 's'}, xAxis[] = {'e','w'};
 
     stack s1;
+    int xC = 0, yC = 0;
     s1.push(d[0]);
+    if(in(d[0],yAxis)) yC++;
+    if(in(d[0],xAxis)) xC++;
+
     for(int i=1; i<len; i++)
      {
         if( in(d1[i], yAxis))
@@ -85,12 +89,13 @@ int main()
              if( in(s1.returnTop(), yAxis))
                 {
                     if( s1.returnTop() != d1[i])
-                        cout<<s1.pop();
+                        {cout<<s1.pop(); yC--;}
                     else
-                        s1.push(d1[i]);
+                        { s1.push(d1[i]); yC++;}
+
                 }
              else
-                s1.push(d1[i]);
+                {s1.push(d1[i]); yC++;}
          }
 
         if( in(d1[i], xAxis))
@@ -98,16 +103,18 @@ int main()
              if( in(s1.returnTop(), xAxis))
                 {
                     if( s1.returnTop() != d1[i])
-                        cout<<s1.pop();
+                        {cout<<s1.pop(); xC--;}
                     else
-                        s1.push(d1[i]);
+                        {s1.push(d1[i]); xC++;}
                 }
              else
-                s1.push(d1[i]);
+                {s1.push(d1[i]); xC++;}
          }
      }
 
     //cout<<in('n', xAxis)<<endl<<in('n', yAxis);
-    s1.displayStack();
+    cout<<xC<<endl<<yC;
+    if (xC == yC) cout<< "\n[]";
+    else s1.displayStack();
     return 0;
 }
